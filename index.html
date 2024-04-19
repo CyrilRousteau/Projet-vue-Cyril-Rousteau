@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Projet Vue.js</title>
+</head>
+<body>
+    <div id="app">
+        <form @submit.prevent="ajouter">
+            <input type="text" v-model="nouvelleTache" placeholder="Ajoutez une nouvelle tâche">
+            <button type="submit">Ajouter</button>
+        </form>
+        
+        <table>
+            <tr v-for="(tache, index) in taches" :key="index">
+                <td>
+                    <input type="checkbox" v-model="tache.fait">
+                    <s v-if="tache.fait">{{ tache.nom }}</s>
+                    <span v-else>{{ tache.nom }}</span>
+                </td>
+                <td>
+                    <button @click="supprimer(index)">Supprimer</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                nouvelleTache: '',
+                taches: []
+            },
+            methods: {
+                ajouter() {
+                    if (this.nouvelleTache !== '') {
+                        this.taches.push({ nom: this.nouvelleTache, fait: false });
+                        this.nouvelleTache = '';
+                    }
+                },
+                supprimer(index) {
+                    this.taches.splice(index, 1);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
